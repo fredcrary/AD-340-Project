@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="TextView"
-        android:textColor="@android:color/holo_blue_bright"
+        android:textColor="@color/colorAccent"
         android:textColorLink="@android:color/holo_blue_bright"
         android:textSize="30sp"
         android:textStyle="italic"
