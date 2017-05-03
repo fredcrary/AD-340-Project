@@ -3,4 +3,8 @@
     <string name="funFact">Fred Crary\n\nFun fact: I worked briefly on the Apollo program</string>
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
+    <string name="aboutLabel">About this App:</string>
+    <string name="aboutContent">An app written for AD-340, Spring 2017</string>
+    <string name="aboutAuthor">Fred Crary</string>
+
 </resources>

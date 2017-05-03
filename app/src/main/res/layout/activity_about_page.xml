@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.fredcrary.ad_340_project.AboutPage">
+
+    <TextView
+        android:id="@+id/aboutHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/aboutLabel"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="16dp" />
+
+    <TextView
+        android:id="@+id/aboutText"
+        android:layout_width="379dp"
+        android:layout_height="wrap_content"
+        android:text="@string/aboutContent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/aboutHeading"
+        android:layout_marginLeft="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="50dp" />
+
+    <TextView
+        android:id="@+id/aboutBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/aboutAuthor"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/aboutText"
+        android:layout_marginLeft="50dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
