@@ -20,7 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ToolBarClass {
     public static final String EXTRA_MESSAGE = "com.example.fredcrary.MESSAGE";
 
     @Override
@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    */
 
     /** Called when the user selects the SEND button */
     public void sendMessage(View view) {

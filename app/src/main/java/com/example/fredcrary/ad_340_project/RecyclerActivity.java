@@ -1,15 +1,20 @@
 package com.example.fredcrary.ad_340_project;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class RecyclerActivity extends AppCompatActivity {
+public class RecyclerActivity extends ToolBarClass {
 
     private RecyclerView mRecyclerView;
     private GridLayoutManager mGridLayoutManager;
@@ -18,6 +23,10 @@ public class RecyclerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler);
+
+        Toolbar appToolBar = (Toolbar) findViewById(R.id.recycleToolbar);
+        appToolBar.inflateMenu(R.menu.toolbar);
+        setSupportActionBar(appToolBar);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleGrid);
         mRecyclerView.setHasFixedSize(true);
