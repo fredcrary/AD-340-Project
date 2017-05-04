@@ -58,8 +58,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.aboutAction:
-                Intent intent = new Intent(MainActivity.this, AboutPage.class);
-                startActivity(intent);
+                Intent intent1 = new Intent(MainActivity.this, AboutPage.class);
+                startActivity(intent1);
+                return true;
+            case R.id.recycleAction:
+                Intent intent2 = new Intent(MainActivity.this, RecyclerActivity.class);
+                startActivity(intent2);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
