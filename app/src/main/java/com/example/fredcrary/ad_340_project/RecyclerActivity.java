@@ -27,6 +27,7 @@ public class RecyclerActivity extends ToolBarClass {
         Toolbar appToolBar = (Toolbar) findViewById(R.id.recycleToolbar);
         appToolBar.inflateMenu(R.menu.toolbar);
         setSupportActionBar(appToolBar);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleGrid);
         mRecyclerView.setHasFixedSize(true);
