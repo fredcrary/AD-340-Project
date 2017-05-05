@@ -29,7 +29,7 @@ public class MainActivity extends ToolBarClass {
         setContentView(R.layout.activity_main);
 
         // Set up the tool bar
-        Toolbar appToolBar = (Toolbar) findViewById(R.id.commonToolbar);
+        Toolbar appToolBar = (Toolbar) findViewById(R.id.mainToolbar);
         appToolBar.inflateMenu(R.menu.toolbar);
         setSupportActionBar(appToolBar);
 
