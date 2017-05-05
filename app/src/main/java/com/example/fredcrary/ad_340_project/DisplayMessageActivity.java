@@ -28,7 +28,7 @@ public class DisplayMessageActivity extends ToolBarClass {
         Toolbar appToolBar = (Toolbar) findViewById(R.id.messageToolbar);
         appToolBar.inflateMenu(R.menu.toolbar);
         setSupportActionBar(appToolBar);
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Get the intent that started this activity and extract the string
         Intent intent = getIntent();

@@ -6,5 +6,6 @@
     <string name="aboutLabel">About this App:</string>
     <string name="aboutContent">An app written for AD-340, Spring 2017</string>
     <string name="aboutAuthor">Fred Crary</string>
+    <string name="title_activity_main2">Main2Activity</string>
 
 </resources>

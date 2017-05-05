@@ -18,7 +18,7 @@ public class AboutPage extends ToolBarClass {
         Toolbar appToolBar = (Toolbar) findViewById(R.id.aboutToolbar);
         appToolBar.inflateMenu(R.menu.toolbar);
         setSupportActionBar(appToolBar);
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 }
