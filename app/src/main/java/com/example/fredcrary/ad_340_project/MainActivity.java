@@ -28,10 +28,12 @@ public class MainActivity extends ToolBarClass {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Set up the tool bar
         Toolbar appToolBar = (Toolbar) findViewById(R.id.commonToolbar);
         appToolBar.inflateMenu(R.menu.toolbar);
         setSupportActionBar(appToolBar);
 
+        // Set up the array of values below the text entry
         GridView gridview = (GridView) findViewById(R.id.mainGrid);
         gridview.setAdapter(new TextAdapter(this));
 
@@ -46,31 +48,6 @@ public class MainActivity extends ToolBarClass {
             }
         });
     }
-
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.toolbar, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.aboutAction:
-                Intent intent1 = new Intent(MainActivity.this, AboutPage.class);
-                startActivity(intent1);
-                return true;
-            case R.id.recycleAction:
-                Intent intent2 = new Intent(MainActivity.this, RecyclerActivity.class);
-                startActivity(intent2);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-    */
 
     /** Called when the user selects the SEND button */
     public void sendMessage(View view) {
