@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 public class MainActivity extends ToolBarClass {
     public static final String EXTRA_MESSAGE = "com.example.fredcrary.MESSAGE";
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,26 +61,21 @@ public class MainActivity extends ToolBarClass {
             public void onClick(View view) {
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
                 mBuilder.setIcon(android.R.drawable.ic_menu_help);
-                mBuilder.setTitle("Dialog title");
-                mBuilder.setMessage("Dialog message");
-                mBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                mBuilder.setTitle("It's your choice");
+                mBuilder.setMessage("Make a choice. It's up to you . . .");
+                mBuilder.setPositiveButton("Right choice", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(MainActivity.this, "OK", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Right choice", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "The user made the right choice");
                         dialogInterface.dismiss();
                     }
                 });
-                mBuilder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                mBuilder.setNeutralButton("Left choice", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(MainActivity.this, "Dismiss", Toast.LENGTH_SHORT).show();
-                        dialogInterface.dismiss();
-                    }
-                });
-                mBuilder.setNeutralButton("Neutral", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(MainActivity.this, "Neutral", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Left choice", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "The user made the left choice");
                         dialogInterface.dismiss();
                     }
                 });
