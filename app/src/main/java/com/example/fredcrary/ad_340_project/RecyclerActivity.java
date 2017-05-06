@@ -24,11 +24,14 @@ public class RecyclerActivity extends ToolBarClass {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler);
 
+        // Set up the toolbar
         Toolbar appToolBar = (Toolbar) findViewById(R.id.recycleToolbar);
         appToolBar.inflateMenu(R.menu.toolbar);
         setSupportActionBar(appToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        super.mCurrentPageId = R.id.recycleAction;    // Remove this page from the toolbar
 
+        // Set up the recycler view
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleGrid);
         mRecyclerView.setHasFixedSize(true);
         mGridLayoutManager = new GridLayoutManager(this, 1);

@@ -10,22 +10,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 public class ToolBarClass extends AppCompatActivity {
+    int mCurrentPageId = 0;     // ID of the toolbar menu item for the current page.
+                                // This item will be removed from the toolbar menu.
+                                // (Would -1 be a better choice for a "no ID" value?)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        /*
-        Toolbar appToolBar = (Toolbar) findViewById(R.id.commonToolbar);
-        appToolBar.inflateMenu(R.menu.toolbar);
-        setSupportActionBar(appToolBar);
-        */
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar, menu);
+        menu.removeItem(mCurrentPageId);    // Remove current page from the toolbar menu
         return true;
     }
 

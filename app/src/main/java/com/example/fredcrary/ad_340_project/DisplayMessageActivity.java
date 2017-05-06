@@ -25,6 +25,7 @@ public class DisplayMessageActivity extends ToolBarClass {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_message);
 
+        // Set up the toolbar
         Toolbar appToolBar = (Toolbar) findViewById(R.id.messageToolbar);
         appToolBar.inflateMenu(R.menu.toolbar);
         setSupportActionBar(appToolBar);

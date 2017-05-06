@@ -15,10 +15,12 @@ public class AboutPage extends ToolBarClass {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_page);
 
+        // Set up the toolbar
         Toolbar appToolBar = (Toolbar) findViewById(R.id.aboutToolbar);
         appToolBar.inflateMenu(R.menu.toolbar);
         setSupportActionBar(appToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        super.mCurrentPageId = R.id.aboutAction;  // Remove this page from toolbar
     }
 
 }
