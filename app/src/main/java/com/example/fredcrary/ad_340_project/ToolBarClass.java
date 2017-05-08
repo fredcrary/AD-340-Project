@@ -30,6 +30,7 @@ public class ToolBarClass extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             // Toolbar menu items
             case R.id.aboutAction:
                 Intent intent1 = new Intent(ToolBarClass.this, AboutPage.class);
@@ -39,10 +40,16 @@ public class ToolBarClass extends AppCompatActivity {
                 Intent intent2 = new Intent(ToolBarClass.this, RecyclerActivity.class);
                 startActivity(intent2);
                 return true;
+            case R.id.xmlAction:
+                Intent intent3 = new Intent(ToolBarClass.this, XmlActivity.class);
+                startActivity(intent3);
+                return true;
+
             // Up/home button
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
+
             // We don't handle this one
             default:
                 return super.onOptionsItemSelected(item);

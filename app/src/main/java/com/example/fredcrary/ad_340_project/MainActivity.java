@@ -75,7 +75,7 @@ public class MainActivity extends ToolBarClass {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Toast.makeText(MainActivity.this, "Left choice", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "The user made the left choice");
+                        Log.d(TAG, "The user made the wrong^H^H^H^H^Hleft choice");
                         dialogInterface.dismiss();
                     }
                 });

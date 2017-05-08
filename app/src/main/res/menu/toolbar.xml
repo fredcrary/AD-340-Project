@@ -9,6 +9,11 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/xmlAction"
+        android:title="XML\nDownload"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/recycleAction"
         android:title="Recycle"
         app:showAsAction="ifRoom" />
