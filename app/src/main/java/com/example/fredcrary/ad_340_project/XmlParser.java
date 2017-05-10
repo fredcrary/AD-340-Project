@@ -1,5 +1,6 @@
 package com.example.fredcrary.ad_340_project;
 
+import android.util.Log;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
