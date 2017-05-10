@@ -39,14 +39,14 @@ public class XmlActivity extends ToolBarClass {
         mRequestQueue = new RequestQueue(cache, network);       // Initiate the RequestQueue
         mRequestQueue.start();                                  // Start the queue
 
-        String url = "http://www.STARparent.com/AD340/AD340a.xml";
+        String url = "http://www.STARparent.com/AD340/AD340.xml";
 
         // Send the request and handle the response
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        ((TextView) findViewById(R.id.xmlMsg)).setText(response);
+                        showBooks(response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -65,6 +65,9 @@ public class XmlActivity extends ToolBarClass {
                     }
                 });
         mRequestQueue.add(stringRequest);
+    }
 
+    private void showBooks(String xmlBookList) {
+        ((TextView) findViewById(R.id.xmlMsg)).setText(xmlBookList);
     }
 }
