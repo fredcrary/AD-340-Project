@@ -36,6 +36,9 @@ public class XmlActivity extends ToolBarClass {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         super.mCurrentPageId = R.id.xmlAction;    // Remove this page from the toolbar
 
+        // Clear the default textview display
+        ((TextView) findViewById(R.id.xmlMsg)).setText("Working . . .");
+
         // Set up the Volley RequestQueue
         RequestQueue mRequestQueue;
         Cache cache = new DiskBasedCache(getCacheDir(), 1024*1024); // 1MB cache
@@ -76,7 +79,14 @@ public class XmlActivity extends ToolBarClass {
             XmlParser parser = new XmlParser();
             List<XmlParser.Entry> bookList =
                     parser.parse(new ByteArrayInputStream(xmlBookList.getBytes()));
-            ((TextView) findViewById(R.id.xmlMsg)).setText("XML parsing completed");
+            String msg = "XML parsing completed\n\n";
+            msg += "\n" + bookList.size() + " entries\n";
+            msg += "\n" + bookList.get(71).title;
+            msg += "\n" + bookList.get(71).author;
+            msg += "\n" + bookList.get(71).isbn;
+            msg += "\n" + bookList.get(71).price;
+            msg += "\n" + bookList.get(71).cover;
+            ((TextView) findViewById(R.id.xmlMsg)).setText(msg);
         } catch (Exception e) {
             String errMsg = "XML parsing threw an exception:\n\n" + e.getMessage();
             ((TextView) findViewById(R.id.xmlMsg)).setText(errMsg);
