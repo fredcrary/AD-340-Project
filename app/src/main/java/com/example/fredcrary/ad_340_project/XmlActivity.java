@@ -17,6 +17,10 @@ import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 
+import java.io.ByteArrayInputStream;
+import java.io.StringReader;
+import java.util.List;
+
 public class XmlActivity extends ToolBarClass {
     private static final String TAG = XmlActivity.class.getSimpleName();
 
@@ -67,7 +71,15 @@ public class XmlActivity extends ToolBarClass {
         mRequestQueue.add(stringRequest);
     }
 
-    private void showBooks(String xmlBookList) {
-        ((TextView) findViewById(R.id.xmlMsg)).setText(xmlBookList);
+    public void showBooks(String xmlBookList) {
+        try {
+            XmlParser parser = new XmlParser();
+            List<XmlParser.Entry> bookList =
+                    parser.parse(new ByteArrayInputStream(xmlBookList.getBytes()));
+            ((TextView) findViewById(R.id.xmlMsg)).setText("XML parsing completed");
+        } catch (Exception e) {
+            String errMsg = "XML parsing threw an exception:\n\n" + e.getMessage();
+            ((TextView) findViewById(R.id.xmlMsg)).setText(errMsg);
+        }
     }
 }
