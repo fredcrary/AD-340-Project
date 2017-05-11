@@ -1,5 +1,8 @@
 package com.example.fredcrary.ad_340_project;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,7 +35,7 @@ public class XmlActivity extends ToolBarClass {
     // For the recycler display
     private RecyclerView bookRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    List<XmlParser.Entry> bookList;
+    List<XmlParser.Entry> bookList;     // Here's where the parsed book list ends up
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,16 @@ public class XmlActivity extends ToolBarClass {
         setSupportActionBar(appToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         super.mCurrentPageId = R.id.xmlAction;    // Remove this page from the toolbar
+
+        // Check for connectivity
+        ConnectivityManager connMgr =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if( networkInfo == null || ! networkInfo.isConnected()) {
+            // No connection => Error message and quit
+            ((TextView) findViewById(R.id.xmlMsg)).setText("No connection found\n\nSo sorry.");
+            return;
+        }
 
         // Set a display to overwrite the default "TextView" display
         ((TextView) findViewById(R.id.xmlMsg)).setText("Working . . .");
@@ -88,18 +101,6 @@ public class XmlActivity extends ToolBarClass {
         try {
             XmlParser parser = new XmlParser();
             bookList = parser.parse(new ByteArrayInputStream(xmlBookList.getBytes()));
-
-
-/*
-            String msg = "XML parsing completed\n\n";
-            msg += "\n" + bookList.size() + " entries\n";
-            msg += "\n" + bookList.get(71).title;
-            msg += "\n" + bookList.get(71).author;
-            msg += "\n" + bookList.get(71).isbn;
-            msg += "\n" + bookList.get(71).price;
-            msg += "\n" + bookList.get(71).cover;
-            ((TextView) findViewById(R.id.xmlMsg)).setText(msg);
-            */
         } catch (Exception e) {
             // Well, that didn't work. Let the user know as much as we do
             String errMsg = "XML parsing threw an exception:\n\n" + e.getMessage();
@@ -115,7 +116,6 @@ public class XmlActivity extends ToolBarClass {
         mLayoutManager = new LinearLayoutManager(this);
         bookRecyclerView.setLayoutManager(mLayoutManager);
         bookRecyclerView.setAdapter(new BookListAdapter());
-
     }
 
     public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHolder> {
