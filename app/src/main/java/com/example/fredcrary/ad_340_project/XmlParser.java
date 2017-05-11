@@ -84,13 +84,33 @@ public class XmlParser {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
             }
-            String name = parser.getName();
-            if      (name.equals("title"))  {title  = readString(parser, "title");}
-            else if (name.equals("author")) {author = readString(parser, "author");}
-            else if (name.equals("isbn"))   {isbn   = readString(parser, "isbn");}
-            else if (name.equals("price"))  {price  = readString(parser, "price");}
-            else if (name.equals("cover"))  {cover  = readString(parser, "cover");}
-            else                            {skip(parser);};
+            //String name = parser.getName();
+            //if      (name.equals("title"))  {title  = readString(parser, "title");}
+            //else if (name.equals("author")) {author = readString(parser, "author");}
+            //else if (name.equals("isbn"))   {isbn   = readString(parser, "isbn");}
+            //else if (name.equals("price"))  {price  = readString(parser, "price");}
+            //else if (name.equals("cover"))  {cover  = readString(parser, "cover");}
+            //else                            {skip(parser);};
+            switch (parser.getName()) {
+                case "title":
+                    title = readString(parser, "title");
+                    break;
+                case "author":
+                    author = readString(parser, "author");
+                    break;
+                case "isbn":
+                    isbn = readString(parser, "isbn");
+                    break;
+                case "price":
+                    price = readString(parser, "price");
+                    break;
+                case "cover":
+                    cover = readString(parser, "cover");
+                    break;
+                default:
+                    skip(parser);
+                    break;
+            }
         }
         return new Entry(title, author, isbn, price, cover);
     }
