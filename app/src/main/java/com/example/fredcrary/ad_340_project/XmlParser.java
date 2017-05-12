@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * Created by Fred Crary on 5/9/2017.
- * Modified from https://developer.androic.com/training/basics/network-ops/xml.html
+ * Modified from https://developer.android.com/training/basics/network-ops/xml.html
  */
 
 public class XmlParser {

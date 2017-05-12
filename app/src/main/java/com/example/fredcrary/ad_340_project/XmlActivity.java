@@ -1,6 +1,9 @@
 package com.example.fredcrary.ad_340_project;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Cache;
@@ -29,8 +33,11 @@ import java.io.ByteArrayInputStream;
 import java.io.StringReader;
 import java.util.List;
 
+import static com.example.fredcrary.ad_340_project.R.drawable.smiley2;
+
 public class XmlActivity extends ToolBarClass {
     private static final String TAG = XmlActivity.class.getSimpleName();
+    private RequestQueue mRequestQueue;     // Volley request queue
 
     // For the recycler display
     private RecyclerView bookRecyclerView;
@@ -63,7 +70,6 @@ public class XmlActivity extends ToolBarClass {
         ((TextView) findViewById(R.id.xmlMsg)).setText("Working . . .");
 
         // Set up the Volley RequestQueue
-        RequestQueue mRequestQueue;
         Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cache
         Network network = new BasicNetwork(new HurlStack());    // Use HTTP connection
         mRequestQueue = new RequestQueue(cache, network);       // Initiate the RequestQueue
@@ -123,11 +129,13 @@ public class XmlActivity extends ToolBarClass {
         public class ViewHolder extends RecyclerView.ViewHolder {
             TextView bookTitle;
             TextView bookInfo;
+            ImageView bookCover;
 
             public ViewHolder(View v) {
                 super(v);
                 bookTitle = (TextView) v.findViewById(R.id.titleView);
                 bookInfo = (TextView) v.findViewById(R.id.infoView);
+                bookCover = (ImageView) v.findViewById(R.id.coverView);
             }
         }
 
@@ -148,6 +156,7 @@ public class XmlActivity extends ToolBarClass {
                     bookList.get(position).isbn + "\n" +
                     bookList.get(position).price;
             holder.bookInfo.setText(info);
+            holder.bookCover.setImageResource(R.drawable.smiley2);
         }
 
         // Return the size of the dataset
