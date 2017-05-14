@@ -23,7 +23,6 @@
         android:id="@+id/titleView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="start"
         app:layout_constraintTop_toTopOf="@id/coverView"
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toEndOf="@id/coverView"
