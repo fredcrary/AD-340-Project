@@ -2,6 +2,7 @@ package com.example.fredcrary.ad_340_project;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.net.ConnectivityManager;
@@ -12,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 
 import java.io.ByteArrayInputStream;
@@ -70,7 +73,7 @@ public class XmlActivity extends ToolBarClass {
         ((TextView) findViewById(R.id.xmlMsg)).setText("Working . . .");
 
         // Set up the Volley RequestQueue
-        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cache
+        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024 * 8); // 8MB cache
         Network network = new BasicNetwork(new HurlStack());    // Use HTTP connection
         mRequestQueue = new RequestQueue(cache, network);       // Initiate the RequestQueue
         mRequestQueue.start();                                  // Start the queue
@@ -150,13 +153,29 @@ public class XmlActivity extends ToolBarClass {
 
         // Replace the contents of a view
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(ViewHolder cHolder, int position) {
+            final ViewHolder holder = cHolder;
             holder.bookTitle.setText(bookList.get(position).title);
             String info = bookList.get(position).author + "\n" +
                     bookList.get(position).isbn + "\n" +
                     bookList.get(position).price;
             holder.bookInfo.setText(info);
-            holder.bookCover.setImageResource(R.drawable.smiley2);
+            final String url = bookList.get(position).cover;
+            ImageRequest imgRequest = new ImageRequest(url,
+                    new Response.Listener<Bitmap>() {
+                        @Override
+                        public void onResponse(Bitmap response) {
+                            holder.bookCover.setImageBitmap(response);
+                        }
+                    }, 60, 0, null, Bitmap.Config.ARGB_8888,
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            holder.bookCover.setImageResource(R.drawable.frown);
+                            Log.d(TAG, "Error return for "+url);
+                        }
+                    });
+            mRequestQueue.add(imgRequest);
         }
 
         // Return the size of the dataset
@@ -164,6 +183,10 @@ public class XmlActivity extends ToolBarClass {
         public int getItemCount() {
             return bookList.size();
         }
+    }
 
+    // Fetch the cover image for the position-th book.
+    public Bitmap getCover(String position) {
+        return null;
     }
 }
