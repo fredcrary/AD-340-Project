@@ -29,20 +29,26 @@ public class ToolBarClass extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+
         switch (item.getItemId()) {
 
             // Toolbar menu items
+            case R.id.locationAction:
+                intent = new Intent(ToolBarClass.this, LocationActivity.class);
+                startActivity(intent);
+                return true;
             case R.id.aboutAction:
-                Intent intent1 = new Intent(ToolBarClass.this, AboutPage.class);
-                startActivity(intent1);
+                intent = new Intent(ToolBarClass.this, AboutPage.class);
+                startActivity(intent);
                 return true;
             case R.id.recycleAction:
-                Intent intent2 = new Intent(ToolBarClass.this, RecyclerActivity.class);
-                startActivity(intent2);
+                intent = new Intent(ToolBarClass.this, RecyclerActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.xmlAction:
-                Intent intent3 = new Intent(ToolBarClass.this, XmlActivity.class);
-                startActivity(intent3);
+                intent = new Intent(ToolBarClass.this, XmlActivity.class);
+                startActivity(intent);
                 return true;
 
             // Up/home button
