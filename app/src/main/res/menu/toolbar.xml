@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/locationAction"
-        android:title="HW7"
+        android:title="Location\nHW7"
         app:showAsAction="ifRoom" />
 
     <item
