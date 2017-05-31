@@ -35,7 +35,10 @@
         <activity
             android:name=".XmlActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".LocationActivity"></activity>
+        <activity
+            android:name=".LocationActivity"
+            android:parentActivityName=".MainActivity" />
+
     </application>
 
 </manifest>
