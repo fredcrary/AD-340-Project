@@ -16,8 +16,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 public class LocationActivity extends ToolBarClass implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener
+{
     protected static final String TAG = LocationActivity.class.getSimpleName();
 
     protected GoogleApiClient mGoogleApiClient;     // Entry point to Google Play Services
@@ -47,6 +48,7 @@ public class LocationActivity extends ToolBarClass implements
         mLatitudeText = (TextView) findViewById(R.id.latitude_text);
         mLatitudeText = (TextView) findViewById(R.id.longitude_text);
         buildGoogleApiClient();
+        Log.d(TAG, "Returned from buildGoogleApiClient()");
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -61,6 +63,7 @@ public class LocationActivity extends ToolBarClass implements
     protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
+        Log.d(TAG, "Completed onStart()");
     }
 
     @Override
@@ -73,6 +76,7 @@ public class LocationActivity extends ToolBarClass implements
 
     @Override
     public void onConnected(Bundle connectionHint){
+        Log.d(TAG, "onConnected() started");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
@@ -81,15 +85,20 @@ public class LocationActivity extends ToolBarClass implements
                         mLastLocation.getLatitude()));
                 mLongitudeText.setText(String.format("%s: %f", mLongitudeLabel,
                         mLastLocation.getLongitude()));
+                Log.d(TAG, (String) mLatitudeText.getText());
+                Log.d(TAG, (String) mLongitudeText.getText());
             } else {
                 Toast.makeText(this, R.string.no_location_detected, Toast.LENGTH_LONG).show();
             }
+        } else {
+            Log.d(TAG, "Location permission failed");
         }
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
+        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = "
+                + result.getErrorCode());
     }
 
     @Override

@@ -23,6 +23,10 @@
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:textIsSelectable="true"
+        app:layout_constraintTop_toBottomOf="@id/locationToolbar"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="latitude"
         />
 
     <TextView
@@ -32,6 +36,9 @@
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:textIsSelectable="true"
+        app:layout_constraintTop_toBottomOf="@id/latitude_text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="longitude"
         />
 
 
