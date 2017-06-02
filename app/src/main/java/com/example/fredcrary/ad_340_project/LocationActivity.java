@@ -21,6 +21,8 @@ public class LocationActivity extends ToolBarClass implements
 {
     protected static final String TAG = LocationActivity.class.getSimpleName();
 
+    public static final int MY_PERMISSIONS_FINE_LOCATION = 1;
+
     protected GoogleApiClient mGoogleApiClient;     // Entry point to Google Play Services
 
     // Location information
@@ -80,11 +82,32 @@ public class LocationActivity extends ToolBarClass implements
         Log.d(TAG, "onConnected() started");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            doLocationActions();
         } else {
             Log.d(TAG, "Location permission failed");
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_FINE_LOCATION);
         }
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                   String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_FINE_LOCATION: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    doLocationActions();
+                } else {
+                    return;
+                }
+            }
+        }
+    }
+
+    protected void doLocationActions() {
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null) {
             mLatitudeText.setText(String.format("%s: %f", mLatitudeLabel,
                     mLastLocation.getLatitude()));
