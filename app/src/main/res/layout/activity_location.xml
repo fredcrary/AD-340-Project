@@ -26,7 +26,7 @@
         app:layout_constraintTop_toBottomOf="@id/locationToolbar"
         android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:text="latitude"
+        android:text="latitude goes here"
         />
 
     <TextView
@@ -38,7 +38,19 @@
         android:textIsSelectable="true"
         app:layout_constraintTop_toBottomOf="@id/latitude_text"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:text="longitude"
+        android:text="longitude goes here"
+        />
+
+    <TextView
+        android:id="@+id/address_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:textIsSelectable="true"
+        app:layout_constraintTop_toBottomOf="@id/longitude_text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="address goes here"
         />
 
 

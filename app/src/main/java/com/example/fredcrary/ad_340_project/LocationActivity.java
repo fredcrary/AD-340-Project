@@ -23,7 +23,8 @@ public class LocationActivity extends ToolBarClass implements
 
     protected GoogleApiClient mGoogleApiClient;     // Entry point to Google Play Services
 
-    protected Location mLastLocation;
+    // Location information
+    protected Location mLastLocation = null;
     protected String mLatitudeLabel;
     protected String mLongitudeLabel;
     protected TextView mLatitudeText;
@@ -46,7 +47,7 @@ public class LocationActivity extends ToolBarClass implements
         mLatitudeLabel = getResources().getString(R.string.latitude_label);
         mLongitudeLabel = getResources().getString(R.string.longitude_label);
         mLatitudeText = (TextView) findViewById(R.id.latitude_text);
-        mLatitudeText = (TextView) findViewById(R.id.longitude_text);
+        mLongitudeText = (TextView) findViewById(R.id.longitude_text);
         buildGoogleApiClient();
         Log.d(TAG, "Returned from buildGoogleApiClient()");
     }
@@ -75,23 +76,22 @@ public class LocationActivity extends ToolBarClass implements
     }
 
     @Override
-    public void onConnected(Bundle connectionHint){
+    public void onConnected(Bundle connectionHint) {
         Log.d(TAG, "onConnected() started");
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            if (mLastLocation != null) {
-                mLatitudeText.setText(String.format("%s: %f", mLatitudeLabel,
-                        mLastLocation.getLatitude()));
-                mLongitudeText.setText(String.format("%s: %f", mLongitudeLabel,
-                        mLastLocation.getLongitude()));
-                Log.d(TAG, (String) mLatitudeText.getText());
-                Log.d(TAG, (String) mLongitudeText.getText());
-            } else {
-                Toast.makeText(this, R.string.no_location_detected, Toast.LENGTH_LONG).show();
-            }
         } else {
             Log.d(TAG, "Location permission failed");
+        }
+
+        if (mLastLocation != null) {
+            mLatitudeText.setText(String.format("%s: %f", mLatitudeLabel,
+                    mLastLocation.getLatitude()));
+            mLongitudeText.setText(String.format("%s: %f", mLongitudeLabel,
+                    mLastLocation.getLongitude()));
+        } else {
+            Toast.makeText(this, R.string.no_location_detected, Toast.LENGTH_LONG).show();
         }
     }
 
