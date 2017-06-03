@@ -13,19 +13,29 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationServices;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.GoogleMap;
+
 public class LocationActivity extends ToolBarClass implements
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener
+        ConnectionCallbacks,
+        OnConnectionFailedListener,
+        OnMapReadyCallback
 {
     protected static final String TAG = LocationActivity.class.getSimpleName();
 
-    public static final int MY_PERMISSIONS_FINE_LOCATION = 1;
+    protected static final int MY_PERMISSIONS_FINE_LOCATION = 1;
 
     protected GoogleApiClient mGoogleApiClient;     // Entry point to Google Play Services
 
-    // Location information
+    // Basic location information
     protected Location mLastLocation = null;
     protected String mLatitudeLabel;
     protected String mLongitudeLabel;
@@ -44,6 +54,11 @@ public class LocationActivity extends ToolBarClass implements
         setSupportActionBar(appToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         super.mCurrentPageId = R.id.locationAction;  // Remove this page from toolbar
+
+        // Start the process to fetch the map
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         // Set up for location
         mLatitudeLabel = getResources().getString(R.string.latitude_label);
@@ -128,5 +143,12 @@ public class LocationActivity extends ToolBarClass implements
     public void onConnectionSuspended(int cause) {
         Log.i(TAG, "Connection suspended");
         mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        LatLng currLoc = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+        googleMap.addMarker(new MarkerOptions().position(currLoc).title("Current location"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(currLoc));
     }
 }
