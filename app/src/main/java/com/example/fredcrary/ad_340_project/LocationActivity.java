@@ -41,6 +41,8 @@ public class LocationActivity extends ToolBarClass implements
     protected String mLongitudeLabel;
     protected TextView mLatitudeText;
     protected TextView mLongitudeText;
+    // Map information
+    protected GoogleMap mMap = null;
 
 
     @Override
@@ -99,7 +101,7 @@ public class LocationActivity extends ToolBarClass implements
                 == PackageManager.PERMISSION_GRANTED) {
             doLocationActions();
         } else {
-            Log.d(TAG, "Location permission failed");
+            Log.d(TAG, "Location permission failed; asking for permission");
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSIONS_FINE_LOCATION);
@@ -115,6 +117,7 @@ public class LocationActivity extends ToolBarClass implements
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     doLocationActions();
                 } else {
+                    Toast.makeText(this, R.string.no_location_detected, Toast.LENGTH_LONG).show();
                     return;
                 }
             }
@@ -128,8 +131,13 @@ public class LocationActivity extends ToolBarClass implements
                     mLastLocation.getLatitude()));
             mLongitudeText.setText(String.format("%s: %f", mLongitudeLabel,
                     mLastLocation.getLongitude()));
-        } else {
-            Toast.makeText(this, R.string.no_location_detected, Toast.LENGTH_LONG).show();
+        }
+
+        if (mLastLocation != null && mMap != null ) {
+            LatLng currLoc = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(currLoc).title("You are here"));
+            mMap.setMinZoomPreference(10);      // city level
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(currLoc));
         }
     }
 
@@ -147,8 +155,7 @@ public class LocationActivity extends ToolBarClass implements
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng currLoc = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-        googleMap.addMarker(new MarkerOptions().position(currLoc).title("Current location"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(currLoc));
+        mMap = googleMap;       // Save the map
+        doLocationActions();    // Update the display
     }
 }

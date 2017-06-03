@@ -12,55 +12,60 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    <TextView
-        android:id="@+id/latitude_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
-        android:textIsSelectable="true"
-        app:layout_constraintTop_toBottomOf="@id/locationToolbar"
-        android:layout_marginTop="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="latitude goes here"
-        />
-
-    <TextView
-        android:id="@+id/longitude_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
-        android:textIsSelectable="true"
-        app:layout_constraintTop_toBottomOf="@id/latitude_text"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="longitude goes here"
-        />
-
-    <TextView
-        android:id="@+id/address_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
-        android:textIsSelectable="true"
-        app:layout_constraintTop_toBottomOf="@id/longitude_text"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="address goes here"
-        />
-
-    <fragment
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/map"
-        android:name="com.example.fredcrary.ad_340_project.SupportMapFragment"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.example.fredcrary.ad_340_project.LocationActivity"
-        />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="?attr/actionBarSize"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        >
+
+        <TextView
+            android:id="@+id/latitude_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:textIsSelectable="true"
+            android:text="latitude goes here"
+            />
+
+        <TextView
+            android:id="@+id/longitude_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:textIsSelectable="true"
+            android:text="longitude goes here"
+            />
+
+        <TextView
+            android:id="@+id/address_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:textIsSelectable="true"
+            android:text="address goes here"
+            />
+
+        <fragment
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".LocationActivity"
+            />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
