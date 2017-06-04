@@ -15,6 +15,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationListener;
@@ -83,14 +84,12 @@ public class LocationActivity extends ToolBarClass implements
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-        Log.d(TAG, "end buildGoogleApiClient()");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
-        Log.d(TAG, "Completed onStart()");
     }
 
     @Override
@@ -106,6 +105,7 @@ public class LocationActivity extends ToolBarClass implements
         Log.d(TAG, "onConnected() started");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
+            startLocationUpdates();     // requires GoogleApiClient to be connected
             updateDisplay();
         } else {
             Log.d(TAG, "Location permission failed; asking for permission");
@@ -139,9 +139,6 @@ public class LocationActivity extends ToolBarClass implements
         if (mLastLocation == null) {
             mLastLocation =
                     LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            if (mGoogleApiClient.isConnected()) {
-                startLocationUpdates();
-            }
         }
 
         if (mLastLocation != null) {
@@ -153,8 +150,9 @@ public class LocationActivity extends ToolBarClass implements
 
         if (mLastLocation != null && mMap != null ) {
             LatLng currLoc = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+            //mMap.clear();         // clear previous marker (and more)
             mMap.addMarker(new MarkerOptions().position(currLoc).title("You are here"));
-            mMap.setMinZoomPreference(10);      // city level
+            mMap.setMinZoomPreference(11);      // city level
             mMap.moveCamera(CameraUpdateFactory.newLatLng(currLoc));
         }
     }
@@ -171,11 +169,12 @@ public class LocationActivity extends ToolBarClass implements
         mGoogleApiClient.connect();
     }
 
+    // ========== Map function
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Log.d(TAG, "onMapReady()");
         mMap = googleMap;       // Save the map
-        updateDisplay();    // Update the display
+        updateDisplay();        // Update the display
     }
 
     // ========== Functions for location updates
@@ -205,4 +204,19 @@ public class LocationActivity extends ToolBarClass implements
         mLastLocation = location;
         updateDisplay();
     }
+
+    // ========== Functions to get the address of the current location
+
+    /*
+    private void getCurrentAddress() {
+        // mLastLocation != null implies location permission
+        if (mLastLocation == null || mMap == null) {
+            return;
+        }
+
+        @SuppressWarnings("MissingPermission")
+        PendingResult<PlaceLikelyhoodBuffer> result =
+                Places.PlaceDetectionApi.getCurrentPlace(mGoogleApiClient, null);
+    }
+    */
 }
