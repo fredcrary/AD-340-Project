@@ -15,9 +15,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationListener;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -27,7 +30,8 @@ import com.google.android.gms.maps.GoogleMap;
 public class LocationActivity extends ToolBarClass implements
         ConnectionCallbacks,
         OnConnectionFailedListener,
-        OnMapReadyCallback
+        OnMapReadyCallback,
+        LocationListener
 {
     protected static final String TAG = LocationActivity.class.getSimpleName();
 
@@ -43,6 +47,8 @@ public class LocationActivity extends ToolBarClass implements
     protected TextView mLongitudeText;
     // Map information
     protected GoogleMap mMap = null;
+    // Location updates
+    private LocationRequest mLocationRequest;
 
 
     @Override
@@ -68,7 +74,7 @@ public class LocationActivity extends ToolBarClass implements
         mLatitudeText = (TextView) findViewById(R.id.latitude_text);
         mLongitudeText = (TextView) findViewById(R.id.longitude_text);
         buildGoogleApiClient();
-        Log.d(TAG, "Returned from buildGoogleApiClient()");
+        createLocationRequest();
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -77,6 +83,7 @@ public class LocationActivity extends ToolBarClass implements
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+        Log.d(TAG, "end buildGoogleApiClient()");
     }
 
     @Override
@@ -99,7 +106,7 @@ public class LocationActivity extends ToolBarClass implements
         Log.d(TAG, "onConnected() started");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            doLocationActions();
+            updateDisplay();
         } else {
             Log.d(TAG, "Location permission failed; asking for permission");
             ActivityCompat.requestPermissions(this,
@@ -115,17 +122,28 @@ public class LocationActivity extends ToolBarClass implements
         switch (requestCode) {
             case MY_PERMISSIONS_FINE_LOCATION: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    doLocationActions();
+                    Log.d(TAG, "Permission received");
+                    // Update the display
+                    updateDisplay();
                 } else {
                     Toast.makeText(this, R.string.no_location_detected, Toast.LENGTH_LONG).show();
-                    return;
                 }
             }
         }
     }
 
-    protected void doLocationActions() {
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+    protected void updateDisplay() {
+        Log.d(TAG, "updateDisplay()");
+        // We get here when either (a) we have location permission (hence a location), or
+        // (b) we have a map. Allow for the possibility that some information may be missing.
+        if (mLastLocation == null) {
+            mLastLocation =
+                    LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            if (mGoogleApiClient.isConnected()) {
+                startLocationUpdates();
+            }
+        }
+
         if (mLastLocation != null) {
             mLatitudeText.setText(String.format("%s: %f", mLatitudeLabel,
                     mLastLocation.getLatitude()));
@@ -155,7 +173,36 @@ public class LocationActivity extends ToolBarClass implements
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.d(TAG, "onMapReady()");
         mMap = googleMap;       // Save the map
-        doLocationActions();    // Update the display
+        updateDisplay();    // Update the display
+    }
+
+    // ========== Functions for location updates
+
+    protected void createLocationRequest() {
+        Log.d(TAG, "createLocationRequest()");
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(20000);        // milliseconds
+        mLocationRequest.setFastestInterval(10000); // milliseconds
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+    }
+
+    protected void startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "startLocationUpdates()");
+            if(mGoogleApiClient.isConnected()) {
+                LocationServices.FusedLocationApi.requestLocationUpdates(
+                        mGoogleApiClient, mLocationRequest, this);
+                Log.d(TAG, "updates requested");
+            }
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        mLastLocation = location;
+        updateDisplay();
     }
 }
