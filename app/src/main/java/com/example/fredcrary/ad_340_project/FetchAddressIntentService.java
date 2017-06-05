@@ -7,7 +7,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.ResultReceiver;
-import android.provider.SyncStateContract;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -17,7 +16,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by Fred Crary on 6/4/2017.
+ * Created by Fred Crary on 6/4/2017. Adapted from instructor's code.
  */
 
 public class FetchAddressIntentService extends IntentService {
@@ -35,28 +34,42 @@ public class FetchAddressIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.d(TAG, "onHandleIntent()");
 
+        deliverResultToReceiver(Constants.FAILURE_RESULT, "Entered onHandleIntent()");
+        return;/*
+
         String errorMessage = "";
 
         mReceiver = intent.getParcelableExtra(Constants.RECEIVER);
 
         if (mReceiver == null) {
             Log.wtf(TAG, "No receiver registered. Nowhere to send the results!");
+            return;
         }
 
         // Get the location passed in
         Location location = intent.getParcelableExtra(Constants.LOCATION_DATA_EXTRA);
+
+        if (location == null) {
+            errorMessage = "No location data supplied";
+            Log.wtf(TAG, errorMessage);
+            deliverResultToReceiver(Constants.FAILURE_RESULT, errorMessage);
+            return;
+        }
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
         List<Address> addresses = null;
 
         try{
-            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            addresses = geocoder.getFromLocation(
+                    location.getLatitude(),
+                    location.getLongitude(),
+                    1);         // only getting one address
         } catch (IOException ioException) {
             errorMessage = "Geocoder service not available";
             Log.e(TAG, errorMessage, ioException);
         } catch (IllegalArgumentException illegalArgumentException) {
-            errorMessage = "Invalid Lat/Long used";
+            errorMessage = "Invalid Lat/Long supplied";
             Log.e(TAG,errorMessage + ". " +
                 "Latitude = " + location.getLatitude() +
                 ", Longitude = " + location.getLongitude(), illegalArgumentException);
@@ -81,6 +94,7 @@ public class FetchAddressIntentService extends IntentService {
             deliverResultToReceiver(Constants.SUCCESS_RESULT,
                     TextUtils.join(System.getProperty("line.separator"), addressFragments));
         }
+        */
     }
 
     private void deliverResultToReceiver(int resultCode, String message) {

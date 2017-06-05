@@ -57,11 +57,6 @@ public class LocationActivity extends ToolBarClass implements
     // Location updates
     private LocationRequest mLocationRequest;
     // Reverse geocoding
-    private final int mMaxLocns = 1;
-    private String[] mLikelyPlaceNames = new String[mMaxLocns];
-    private String[] mLikelyPlaceAddresses = new String[mMaxLocns];
-    private String[] mLikelyPlaceAttributions = new String[mMaxLocns];
-    private LatLng[] mLikelyLatLngs = new LatLng[mMaxLocns];
     protected TextView mLocationText;
     protected String mAddressOutput;
     private AddressResultReceiver mResultReceiver;
