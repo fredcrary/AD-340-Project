@@ -3,6 +3,9 @@ package com.example.fredcrary.ad_340_project;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Handler;
+import android.os.ResultReceiver;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +31,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.GoogleMap;
 
+import android.content.Intent;
+
+
 public class LocationActivity extends ToolBarClass implements
         ConnectionCallbacks,
         OnConnectionFailedListener,
@@ -50,6 +56,15 @@ public class LocationActivity extends ToolBarClass implements
     protected GoogleMap mMap = null;
     // Location updates
     private LocationRequest mLocationRequest;
+    // Reverse geocoding
+    private final int mMaxLocns = 1;
+    private String[] mLikelyPlaceNames = new String[mMaxLocns];
+    private String[] mLikelyPlaceAddresses = new String[mMaxLocns];
+    private String[] mLikelyPlaceAttributions = new String[mMaxLocns];
+    private LatLng[] mLikelyLatLngs = new LatLng[mMaxLocns];
+    protected TextView mLocationText;
+    protected String mAddressOutput;
+    private AddressResultReceiver mResultReceiver;
 
 
     @Override
@@ -142,6 +157,11 @@ public class LocationActivity extends ToolBarClass implements
         }
 
         if (mLastLocation != null) {
+
+            // Begin process to determine address (reverse geocode)
+            startIntentService();
+
+            // Display latitude & longitude
             mLatitudeText.setText(String.format("%s: %f", mLatitudeLabel,
                     mLastLocation.getLatitude()));
             mLongitudeText.setText(String.format("%s: %f", mLongitudeLabel,
@@ -149,6 +169,7 @@ public class LocationActivity extends ToolBarClass implements
         }
 
         if (mLastLocation != null && mMap != null ) {
+            // Display the map and put a marker on the current location
             LatLng currLoc = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
             //mMap.clear();         // clear previous marker (and more)
             mMap.addMarker(new MarkerOptions().position(currLoc).title("You are here"));
@@ -207,16 +228,33 @@ public class LocationActivity extends ToolBarClass implements
 
     // ========== Functions to get the address of the current location
 
-    /*
-    private void getCurrentAddress() {
-        // mLastLocation != null implies location permission
-        if (mLastLocation == null || mMap == null) {
-            return;
+    protected void startIntentService() {
+        Log.d(TAG, "startIntentService()");
+
+        // Create an intent to fetch the address
+        Intent intent = new Intent(this, FetchAddressIntentService.class);
+
+        // Add receiver as an extra
+        intent.putExtra(Constants.RECEIVER, mResultReceiver);
+
+        // Add location as an extra
+        intent.putExtra(Constants.LOCATION_DATA_EXTRA, mLastLocation);
+
+        // Start the service
+        startService(intent);
+    }
+
+    class AddressResultReceiver extends ResultReceiver {
+        public AddressResultReceiver(Handler handler) {
+            super(handler);
         }
 
-        @SuppressWarnings("MissingPermission")
-        PendingResult<PlaceLikelyhoodBuffer> result =
-                Places.PlaceDetectionApi.getCurrentPlace(mGoogleApiClient, null);
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+            // Display the address or an error message
+            mAddressOutput = resultData.getString(Constants.RESULT_DATA_KEY);
+            mLocationText.setText(mAddressOutput);
+        }
+
     }
-    */
 }
