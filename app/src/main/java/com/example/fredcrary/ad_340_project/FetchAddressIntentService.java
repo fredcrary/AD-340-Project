@@ -34,9 +34,6 @@ public class FetchAddressIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.d(TAG, "onHandleIntent()");
 
-        deliverResultToReceiver(Constants.FAILURE_RESULT, "Entered onHandleIntent()");
-        return;/*
-
         String errorMessage = "";
 
         mReceiver = intent.getParcelableExtra(Constants.RECEIVER);
@@ -94,7 +91,6 @@ public class FetchAddressIntentService extends IntentService {
             deliverResultToReceiver(Constants.SUCCESS_RESULT,
                     TextUtils.join(System.getProperty("line.separator"), addressFragments));
         }
-        */
     }
 
     private void deliverResultToReceiver(int resultCode, String message) {

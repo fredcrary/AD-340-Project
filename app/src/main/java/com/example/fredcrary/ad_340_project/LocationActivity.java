@@ -79,6 +79,10 @@ public class LocationActivity extends ToolBarClass implements
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        // Set up for address lookup
+        mResultReceiver = new AddressResultReceiver(new Handler());
+        mLocationText = (TextView) findViewById(R.id.address_text);
+
         // Set up for location
         mLatitudeLabel = getResources().getString(R.string.latitude_label);
         mLongitudeLabel = getResources().getString(R.string.longitude_label);
