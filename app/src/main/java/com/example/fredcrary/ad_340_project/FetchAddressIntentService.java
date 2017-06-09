@@ -32,7 +32,7 @@ public class FetchAddressIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(TAG, "onHandleIntent()");
+        //Log.d(TAG, "onHandleIntent()");
 
         String errorMessage = "";
 
@@ -87,7 +87,7 @@ public class FetchAddressIntentService extends IntentService {
             for (int i = 0 ; i < address.getMaxAddressLineIndex() ; i++) {
                 addressFragments.add(address.getAddressLine(i));
             }
-            Log.i(TAG, "Address found");
+            //Log.i(TAG, "Address found");
             deliverResultToReceiver(Constants.SUCCESS_RESULT,
                     TextUtils.join(System.getProperty("line.separator"), addressFragments));
         }

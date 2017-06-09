@@ -116,7 +116,7 @@ public class LocationActivity extends ToolBarClass implements
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        Log.d(TAG, "onConnected() started");
+        //Log.d(TAG, "onConnected() started");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             startLocationUpdates();     // requires GoogleApiClient to be connected
@@ -136,7 +136,7 @@ public class LocationActivity extends ToolBarClass implements
         switch (requestCode) {
             case MY_PERMISSIONS_FINE_LOCATION: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d(TAG, "Permission received");
+                    //Log.d(TAG, "Permission received");
                     // Update the display
                     updateDisplay();
                 } else {
@@ -147,7 +147,7 @@ public class LocationActivity extends ToolBarClass implements
     }
 
     protected void updateDisplay() {
-        Log.d(TAG, "updateDisplay()");
+        //Log.d(TAG, "updateDisplay()");
         // We get here when either (a) we have location permission (hence a location), or
         // (b) we have a map. Allow for the possibility that some information may be missing.
         if (mLastLocation == null) {
@@ -210,7 +210,7 @@ public class LocationActivity extends ToolBarClass implements
     protected void startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "startLocationUpdates()");
+            //Log.d(TAG, "startLocationUpdates()");
             if(mGoogleApiClient.isConnected()) {
                 LocationServices.FusedLocationApi.requestLocationUpdates(
                         mGoogleApiClient, mLocationRequest, this);
@@ -228,7 +228,7 @@ public class LocationActivity extends ToolBarClass implements
     // ========== Functions to get the address of the current location
 
     protected void startIntentService() {
-        Log.d(TAG, "startIntentService()");
+        //Log.d(TAG, "startIntentService()");
 
         // Create an intent to fetch the address
         Intent intent = new Intent(this, FetchAddressIntentService.class);
